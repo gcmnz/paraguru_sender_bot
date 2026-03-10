@@ -269,20 +269,25 @@ async def process_keyboard(callback_query: types.CallbackQuery, state: FSMContex
                             parse_mode="HTML"
                         )
 
+                await bot.edit_message_text(text=enter_message_text.format(channel=channel_username_text),
+                                            chat_id=callback_query.from_user.id,
+                                            message_id=callback_query.message.message_id,
+                                            parse_mode="HTML",
+                                            reply_markup=set_channel_button)
             except Exception as e:
                 await state.set_state(Form.message_text)
                 await bot.edit_message_text(text=f"❌ {e}",
                                             chat_id=callback_query.from_user.id,
                                             message_id=callback_query.message.message_id)
 
+                await bot.send_message(text=enter_message_text.format(channel=channel_username_text),
+                                       chat_id=callback_query.from_user.id,
+                                       parse_mode="HTML",
+                                       reply_markup=set_channel_button)
+
                 return
 
             finally:
-                await bot.edit_message_text(text=enter_message_text.format(channel=channel_username_text),
-                                            chat_id=callback_query.from_user.id,
-                                            message_id=callback_query.message.message_id,
-                                            parse_mode="HTML",
-                                            reply_markup=set_channel_button)
                 await state.clear()
                 await state.update_data(channel_username=channel_username)
                 await state.set_state(Form.message_text)
