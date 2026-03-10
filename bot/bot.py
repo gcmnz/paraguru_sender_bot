@@ -21,7 +21,7 @@ from bot.text import (
     send_photo_or_video_text,
     get_channel_username_text
 )
-from token import TOKEN
+from .token import TOKEN
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
